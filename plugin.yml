@@ -1,0 +1,10 @@
+---
+name: CheatChecker
+version: 0.0.1
+main: morskoi\CheatChecker\CheatChecker
+api: 5.0.0
+author: morskoi den
+permissions:
+  warek.check:
+    default: op
+...

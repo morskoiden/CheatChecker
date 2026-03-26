@@ -1,0 +1,63 @@
+# CheatChecker Configuration by morskoi den
+# Placeholders: {PLAYER} - player name, {STAFF} - staff member name, {WORLD} - world name
+
+# Messages
+
+# Message sent to player when check start
+start-check: "You have been called for a cheat check. Follow the instructions of moderator §6{STAFF}"
+
+# Message sent to player when check ends successfully
+stop-check: "§aYou have successfully passed the check. You can continue playing."
+
+# Message sent to staff when check starts
+staff-message-start: "§aYou started checking player §6{PLAYER}"
+
+# Message sent to staff when check stops
+stop-check-moder: "§aYou stopped checking player §6{PLAYER}"
+
+# Message when player argument is missing
+player-null: "§cSpecify player name: §e/check <start|stop> <player>"
+
+# Message when target player is offline
+player-offline: "§cPlayer §6{PLAYER} §cis offline"
+
+# Message when player is already being checked
+player-in-check: "§cPlayer §6{PLAYER} §cis already being checked"
+
+# Message when player is NOT being checked
+not-on-check: "§cPlayer §6{PLAYER} §cis not being checked"
+
+# Message when staff tries to check themselves
+self-check-start: "§cYou cannot call yourself for a check"
+
+# Message when staff tries to stop check on themselves
+self-check-stop: "§cYou cannot remove yourself from the check"
+
+# Message when player tries to use commands during check
+command-no-usage: "§cYou cannot use commands during the check!"
+
+# Message shown in /check without arguments
+command-use: "§cUsage: §e/check start <player> or /check stop <player>"
+
+# Error when teleport world not found
+error-world: "§cWorld {WORLD} not found!"
+
+# Title settings
+
+# Title and subtitle text shown to player during check (big text in center of screen)
+title-text: "§cYOU ARE BEING CHECKED"
+subtitle-text: "§aLOOK IN THE CHAT"
+
+# Teleport settings
+
+# Coordinates where player will be teleported during check
+teleport-pos:
+  world: "world"  # World name
+  x: 0            # X coordinate
+  y: 100          # Y coordinate
+  z: 0            # Z coordinate
+
+# Check settings
+
+# Title interval in seconds (how often to show title)
+title-interval: 10
