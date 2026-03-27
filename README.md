@@ -7,3 +7,5 @@ Messages in staff (no all)
 <img width="927" height="256" alt="image" src="https://github.com/user-attachments/assets/7e25b92b-adc1-4017-bdea-d0e6f9a1ee2b" />
 
 The plugin will be regularly updated; if you want to add something or find a bug, please let me know!
+
+Dependencies: Commando (by CortexPE), SimplePacketHandler(by muqsit(in Commando))
