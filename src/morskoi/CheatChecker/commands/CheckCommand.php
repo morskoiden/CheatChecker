@@ -17,9 +17,7 @@ class CheckCommand extends BaseCommand {
     protected $plugin;
 
     public function __construct(CheatChecker $plugin, string $name, string $description = "", array $aliases = []) {
-        if ($plugin instanceof CheatChecker) {
-            $this->plugin = $plugin;
-        }
+        $this->plugin = $plugin;
         parent::__construct($plugin, $name, $description, $aliases);
     }
 
