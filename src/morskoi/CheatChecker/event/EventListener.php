@@ -4,6 +4,7 @@ namespace morskoi\CheatChecker\event;
 
 use pocketmine\event\{Listener, player\PlayerMoveEvent, player\PlayerDropItemEvent, server\CommandEvent};
 use morskoi\CheatChecker\CheatChecker;
+use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\player\Player;
 
 class EventListener implements Listener {
@@ -36,6 +37,22 @@ class EventListener implements Listener {
             $event->cancel();
             $cfg = $this->plugin->getConfig();
             $sender->sendMessage($cfg->get("command-no-usage"));
+        }
+    }
+    public function onChat(PlayerChatEvent $event) {
+        $cfg = $this->plugin->getConfig();
+        $player = $event->getPlayer();
+        $message = $event->getMessage();
+        if ($cfg->get("special-chat-enable") === "on") {
+            if ($this->plugin->getSessionManager()->isChecked($player)) {
+                $event->cancel();
+                $staff = $this->plugin->getServer()->getPlayerExact($this->plugin->getSessionManager()->getStaff($player));
+                $chatFormat = str_replace(["{PLAYER}", "{MESSAGE}"], [$player->getName(), $message], $cfg->get("chat-format"));
+                $player->sendMessage($chatFormat);
+                if ($staff !== null && $staff->isOnline()) {
+                    $staff->sendMessage($chatFormat);
+                }
+            }
         }
     }
 }

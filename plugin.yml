@@ -6,6 +6,6 @@ api: 5.0.0
 author: morskoi den
 virions: ["Commando", "SimplePacketHandler"]
 permissions:
-  warek.check:
+  cheatchecker.check:
     default: op
 ...

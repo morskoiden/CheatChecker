@@ -14,13 +14,11 @@ use morskoi\CheatChecker\commands\CheckCommand;
 
 class CheatChecker extends PluginBase implements Listener {
     private Config $cfg;
-    private Config $cfgChecks;
     private SessionManager $sessionManager;
     public function onEnable(): void {
         @mkdir($this->getDataFolder());
         $this->saveDefaultConfig();
         $this->cfg = new Config($this->getDataFolder() . "config.yml", Config::YAML);
-        $this->cfgChecks = new Config($this->getDataFolder() . "checks.yml", Config::YAML);
 
         $this->sessionManager = new SessionManager($this);
 
@@ -29,16 +27,9 @@ class CheatChecker extends PluginBase implements Listener {
 		$this->getServer()->getCommandMap()->register($this->getDescription()->getName(), new CheckCommand($this, "check", "check in cheat"));
         $this->getScheduler()->scheduleRepeatingTask(new CheckTask($this), 20);
     }
-    public function onDisable(): void {
-        $this->sessionManager->removeAllChecks();
-    }
     public function getConfig(): Config 
     {
         return $this->cfg;
-    }
-    public function getConfigChecks(): Config 
-    {
-        return $this->cfgChecks;
     }
     public function getSessionManager(): SessionManager 
     {

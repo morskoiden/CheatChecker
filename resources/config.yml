@@ -15,6 +15,9 @@ staff-message-start: "§aYou started checking player §6{PLAYER}"
 # Message sent to staff when check stops
 stop-check-moder: "§aYou stopped checking player §6{PLAYER}"
 
+# Message checklist format
+format-list-checks: "§aCurrent Active Checks:\n§f- §cstaff §f- §eplayer §f- §6date\n §f| §c{STAFF} §f| §e{PLAYER} §f| §6{DATE} §f|"
+
 # Message when player argument is missing
 player-null: "§cSpecify player name: §e/check <start|stop> <player>"
 
@@ -25,7 +28,7 @@ player-offline: "§cPlayer §6{PLAYER} §cis offline"
 player-in-check: "§cPlayer §6{PLAYER} §cis already being checked"
 
 # Message when player is NOT being checked
-not-on-check: "§cPlayer §6{PLAYER} §cis not being checked"
+not-in-check: "§cPlayer §6{PLAYER} §cis not being checked"
 
 # Message when staff tries to check themselves
 self-check-start: "§cYou cannot call yourself for a check"
@@ -45,11 +48,16 @@ error-world: "§cWorld {WORLD} not found!"
 # Title settings
 
 # Title and subtitle text shown to player during check (big text in center of screen)
+title-enable: "on" # enable title, if player in the check ? on = yes, off = no
 title-text: "§cYOU ARE BEING CHECKED"
 subtitle-text: "§aLOOK IN THE CHAT"
 
-# Teleport settings
+# Chat settings
+special-chat-enable: "on" # is a special chat needed when a player is being verified? on = yes, off = no
+chat-format: "§f[§cChatCheck§f] §f{PLAYER} -> {MESSAGE}"
 
+# Teleport settings
+teleport-enable: "on" # should I teleport player, at the start check ? on = yes, off = no
 # Coordinates where player will be teleported during check
 teleport-pos:
   world: "world"  # World name
@@ -58,6 +66,5 @@ teleport-pos:
   z: 0            # Z coordinate
 
 # Check settings
-
 # Title interval in seconds (how often to show title)
 title-interval: 10
