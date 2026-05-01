@@ -10,10 +10,10 @@ start-check: "You have been called for a cheat check. Follow the instructions of
 stop-check: "§aYou have successfully passed the check. You can continue playing."
 
 # Message sent to staff when check starts
-staff-message-start: "§aYou started checking player §6{PLAYER}"
+staff-message-start: "§aYou started checking player §e{PLAYER}"
 
 # Message sent to staff when check stops
-stop-check-moder: "§aYou stopped checking player §6{PLAYER}"
+stop-check-moder: "§aYou stopped checking player §e{PLAYER}"
 
 # Message checklist format
 format-list-checks: "§aCurrent Active Checks:\n§f- §cstaff §f- §eplayer §f- §6date\n §f| §c{STAFF} §f| §e{PLAYER} §f| §6{DATE} §f|"
@@ -22,13 +22,13 @@ format-list-checks: "§aCurrent Active Checks:\n§f- §cstaff §f- §eplayer §f
 player-null: "§cSpecify player name: §e/check <start|stop> <player>"
 
 # Message when target player is offline
-player-offline: "§cPlayer §6{PLAYER} §cis offline"
+player-offline: "§cPlayer §e{PLAYER} §cis offline"
 
 # Message when player is already being checked
-player-in-check: "§cPlayer §6{PLAYER} §cis already being checked"
+player-in-check: "§cPlayer §e{PLAYER} §cis already being checked"
 
 # Message when player is NOT being checked
-not-in-check: "§cPlayer §6{PLAYER} §cis not being checked"
+not-in-check: "§cPlayer §e{PLAYER} §cis not being checked"
 
 # Message when staff tries to check themselves
 self-check-start: "§cYou cannot call yourself for a check"
@@ -43,7 +43,7 @@ command-no-usage: "§cYou cannot use commands during the check!"
 command-use: "§cUsage: §e/check start <player> or /check stop <player>"
 
 # Error when teleport world not found
-error-world: "§cWorld {WORLD} not found!"
+error-world: "§cWorld §a{WORLD} §cnot found!"
 
 # Title settings
 
@@ -58,6 +58,12 @@ chat-format: "§f[§cChatCheck§f] §f{PLAYER} -> {MESSAGE}"
 
 # Teleport settings
 teleport-enable: "on" # should I teleport player, at the start check ? on = yes, off = no
+
+# Teleport commands messages:
+not-checking-player: "§cYou are not checking player §e{PLAYER}!" # Message when the staff member is not the one inspecting the target player
+success-teleport: "You have §asuccessfully teleported §fto the player you are checking" # Message after a successful teleport to the player being checked.
+
+# Check settings
 # Coordinates where player will be teleported during check
 teleport-pos:
   world: "world"  # World name
@@ -65,6 +71,5 @@ teleport-pos:
   y: 100          # Y coordinate
   z: 0            # Z coordinate
 
-# Check settings
 # Title interval in seconds (how often to show title)
 title-interval: 10
