@@ -4,6 +4,7 @@ namespace morskoi\CheatChecker\event;
 
 use pocketmine\event\{Listener, player\PlayerMoveEvent, player\PlayerDropItemEvent, server\CommandEvent};
 use morskoi\CheatChecker\CheatChecker;
+use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\player\Player;
 
@@ -53,6 +54,12 @@ class EventListener implements Listener {
                     $staff->sendMessage($chatFormat);
                 }
             }
+        }
+    }
+    public function onDamage(EntityDamageEvent $event) {
+        $entity = $event->getEntity();
+        if ($entity instanceof Player && $this->plugin->getSessionManager()->isChecked($entity)) {
+            $event->cancel();
         }
     }
 }

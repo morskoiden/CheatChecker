@@ -7,6 +7,7 @@ use morskoi\CheatChecker\CheatChecker;
 use morskoi\CheatChecker\commands\subcommands\ListCommand;
 use morskoi\CheatChecker\commands\subcommands\StartCommand;
 use morskoi\CheatChecker\commands\subcommands\StopCommand;
+use morskoi\CheatChecker\commands\subcommands\TeleportCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 
@@ -20,10 +21,11 @@ class CheckCommand extends BaseCommand {
     }
 
 	protected function prepare() : void {
-        $this->setPermission("cheatchecker.check");
+        $this->setPermission("warek.check");
         $this->registerSubCommand(new StartCommand($this->plugin, "start", "start check"));
         $this->registerSubCommand(new StopCommand($this->plugin, "stop", "stop check"));
         $this->registerSubCommand(new ListCommand($this->plugin, "list", "send list all checks"));
+        $this->registerSubCommand(new TeleportCommand($this->plugin, "teleport", "teleported staff in the player", ["tp"]));
     }
 
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
