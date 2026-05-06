@@ -5,9 +5,11 @@
 
 # Message sent to player when check start
 start-check: "You have been called for a cheat check. Follow the instructions of moderator §6{STAFF}"
+start-check-logg: "§6{STAFF} §aSTART §fcheck in §6{PLAYER}" # Message in console 
 
 # Message sent to player when check ends successfully
 stop-check: "§aYou have successfully passed the check. You can continue playing."
+stop-check-logg: "§6{STAFF} §cSTOP §fcheck in §6{PLAYER}" # Message in console 
 
 # Message sent to staff when check starts
 staff-message-start: "§aYou started checking player §e{PLAYER}"
@@ -62,6 +64,7 @@ teleport-enable: "on" # should I teleport player, at the start check ? on = yes,
 # Teleport commands messages:
 not-checking-player: "§cYou are not checking player §e{PLAYER}!" # Message when the staff member is not the one inspecting the target player
 success-teleport: "You have §asuccessfully teleported §fto the player you are checking" # Message after a successful teleport to the player being checked.
+teleport-check-logg: "§6{STAFF} §aTELEPORTED §fto §6{PLAYER}" # Message in console 
 
 # Check settings
 # Coordinates where player will be teleported during check

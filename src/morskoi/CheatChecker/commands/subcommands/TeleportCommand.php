@@ -8,7 +8,6 @@ use CortexPE\Commando\exception\ArgumentOrderException;
 use morskoi\CheatChecker\CheatChecker;
 use pocketmine\command\CommandSender;
 use morskoi\CheatChecker\commands\arguments\PlayerArgument;
-use pocketmine\player\Player;
 use pocketmine\Server;
 
 class TeleportCommand extends BaseSubCommand {
@@ -39,20 +38,6 @@ class TeleportCommand extends BaseSubCommand {
             $sender->sendMessage(str_replace("{PLAYER}", $targetName, $cfg->get("player-offline")));
             return;
         }
-		if ($target === $sender) {
-			$sender->sendMessage($cfg->get("self-check-stop"));
-			return;
-		}
-        if (!$this->plugin->getSessionManager()->isChecked($target)) {
-            $sender->sendMessage(str_replace("{PLAYER}", $targetName, $cfg->get("not-in-check")));
-            return;
-        }
-        if (!$this->plugin->getSessionManager()->getStaff($target) === $sender->getName()) {
-            $sender->sendMessage(str_replace("{PLAYER}", $targetName, $cfg->get("not-checking-player")));
-            return;
-        }
-        /** @var Player $sender */ 
-        $sender->teleport($target->getPosition());
-        $sender->sendMessage(str_replace("{PLAYER}", $targetName, $cfg->get("success-teleport")));
+        $this->plugin->getSessionManager()->teleportStaff($sender, $target);
     }
 }

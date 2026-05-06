@@ -19,6 +19,7 @@ class SessionManager {
         $cfg = $this->plugin->getConfig();
         $staffName = $staff->getName();
         $target->sendMessage(str_replace("{STAFF}", $staffName, $cfg->get("start-check")));
+        $this->plugin->getServer()->getLogger()->info(str_replace(["{STAFF}", "{PLAYER}"], [$staffName, $targetName], $cfg->get("start-check-logg")));
         $this->noCheckPos[$targetName] = $target->getPosition();
         $data = [
             "player" => $targetName,
@@ -50,6 +51,7 @@ class SessionManager {
         $targetName = $target->getName();
         $cfg = $this->plugin->getConfig();
         if ($target->isOnline()) {
+            $this->plugin->getServer()->getLogger()->info(str_replace(["{STAFF}", "{PLAYER}"], [$this->getStaff($target), $targetName], $cfg->get("stop-check-logg")));
             $target->sendMessage($cfg->get("stop-check"));
         }
         $this->cleanupSession($targetName);
@@ -73,5 +75,26 @@ class SessionManager {
 
     public function getStaff(Player $player): string {
         return $this->activeChecks[$player->getName()]["staff"] ?? "Unknown";
+    }
+
+    public function teleportStaff(Player $staff, Player $player) {
+        $playerName = $player->getName();
+        $staffName = $staff->getName();
+        $cfg = $this->plugin->getConfig();
+        if ($player === $staff) {
+			$staff->sendMessage($cfg->get("self-check-stop"));
+			return;
+		}
+        if (!$this->isChecked($player)) {
+            $staff->sendMessage(str_replace("{PLAYER}", $playerName, $cfg->get("not-in-check")));
+            return;
+        }
+        if (!$this->getStaff($player) === $staffName) {
+            $staff->sendMessage(str_replace("{PLAYER}", $playerName, $cfg->get("not-checking-player")));
+            return;
+        }
+        $staff->teleport($player->getPosition());
+        $staff->sendMessage(str_replace("{PLAYER}", $playerName, $cfg->get("success-teleport")));
+        $this->plugin->getServer()->getLogger()->info(str_replace(["{STAFF}", "{PLAYER}"], [$staffName, $playerName], $cfg->get("teleport-check-logg")));
     }
 }
