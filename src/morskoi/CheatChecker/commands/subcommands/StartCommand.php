@@ -33,22 +33,12 @@ class StartCommand extends BaseSubCommand {
             $sender->sendMessage($cfg->get("player-null"));
             return;
         }
-        $playerName = $sender->getName();
         $targetName = $args["target"];
         $target = Server::getInstance()->getPlayerExact($targetName);
         if ($target === null) {
             $sender->sendMessage(str_replace("{PLAYER}", $targetName, $cfg->get("player-offline")));
             return;
         }
-        if ($target === $sender) {
-			$sender->sendMessage($cfg->get("self-check-start"));
-			return;
-		}
-        if ($this->plugin->getSessionManager()->isChecked($target)) {
-            $sender->sendMessage(str_replace("{PLAYER}", $targetName, $cfg->get("player-in-check")));
-            return;
-        }
         $this->plugin->getSessionManager()->onStart($target, $sender);
-        $sender->sendMessage(str_replace("{PLAYER}", $targetName, $cfg->get("staff-message-start")));
     }
 }

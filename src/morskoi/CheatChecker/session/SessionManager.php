@@ -5,6 +5,8 @@ namespace morskoi\CheatChecker\session;
 use morskoi\CheatChecker\CheatChecker;
 use pocketmine\player\Player;
 use pocketmine\world\Position;
+use pocketmine\world\sound\FireworkLaunchSound;
+use pocketmine\world\sound\FizzSound;
 
 class SessionManager {
     private CheatChecker $plugin;
@@ -18,7 +20,16 @@ class SessionManager {
         $targetName = $target->getName();
         $cfg = $this->plugin->getConfig();
         $staffName = $staff->getName();
+        if ($targetName === $staffName) {
+            $staff->sendMessage($cfg->get("self-check-start"));
+            return;
+        }
+        if ($this->isChecked($target)) {
+            $staff->sendMessage(str_replace("{PLAYER}", $targetName, $cfg->get("player-in-check")));
+            return;
+        }
         $target->sendMessage(str_replace("{STAFF}", $staffName, $cfg->get("start-check")));
+        $staff->sendMessage(str_replace("{PLAYER}", $targetName, $cfg->get("staff-message-start")));
         $this->plugin->getServer()->getLogger()->info(str_replace(["{STAFF}", "{PLAYER}"], [$staffName, $targetName], $cfg->get("start-check-logg")));
         $this->noCheckPos[$targetName] = $target->getPosition();
         $data = [
@@ -27,32 +38,41 @@ class SessionManager {
             "date" => date("d.m.Y H:i")
         ];
         $this->activeChecks[$targetName] = $data;
-        $config = $this->plugin->getConfig();
-        $pos = $this->plugin->getConfig()->get("teleport-pos");
+        $pos = $cfg->get("teleport-pos");
         $worldName = $pos["world"];
         $world = $this->plugin->getServer()->getWorldManager()->getWorldByName($worldName);
-        if ($config->get("teleport-enable") === "on") {
+        if ($cfg->get("teleport-enable") === "on") {
             if ($world !== null) {
                 $pos = new Position(
-                    (float)$pos["x"], 
+                    (float)$pos["x"],
                     (float)$pos["y"], 
                     (float)$pos["z"], 
                     $world
                 );
                 $target->teleport($pos);
+                $target->getWorld()->addSound($target->getPosition(), new FireworkLaunchSound(), [$target, $staff]);
+                $staff->getWorld()->addSound($staff->getPosition(), new FireworkLaunchSound(), [$target, $staff]);
             } else {
-                $errorWorld = str_replace("{WORLD}", $worldName, $cfg->get("error-world"));
-                $this->plugin->getLogger()->error($errorWorld);
+                $this->plugin->getLogger()->error(str_replace("{WORLD}", $worldName, $cfg->get("error-world")));
             }
         }
     }
     
     public function onStop(Player $target): void {
         $targetName = $target->getName();
+        $staffName = $this->getStaff($target);
+        $staff = $this->plugin->getServer()->getPlayerExact($staffName);
         $cfg = $this->plugin->getConfig();
+        if ($targetName === $staffName) {
+			$staff->sendMessage($cfg->get("self-check-stop"));
+			return;
+		}
         if ($target->isOnline()) {
-            $this->plugin->getServer()->getLogger()->info(str_replace(["{STAFF}", "{PLAYER}"], [$this->getStaff($target), $targetName], $cfg->get("stop-check-logg")));
+            $this->plugin->getServer()->getLogger()->info(str_replace(["{STAFF}", "{PLAYER}"], [$staffName, $targetName], $cfg->get("stop-check-logg")));
             $target->sendMessage($cfg->get("stop-check"));
+            $target->getWorld()->addSound($target->getPosition(), new FizzSound(), [$target, $staff]);
+            $staff->getWorld()->addSound($staff->getPosition(), new FizzSound(), [$target, $staff]);
+            $target->teleport($this->noCheckPos[$targetName]);
         }
         $this->cleanupSession($targetName);
     }
